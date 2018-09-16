@@ -1,0 +1,23 @@
+﻿@using System.Data
+@using System.Linq
+
+@model DataSet
+@{
+    Layout = null;
+    WebGrid webGrid = new WebGrid(source: (from p in Model.Tables[0].AsEnumerable()
+                                           select new
+                                           {
+                                               ProductID = p.Field<int>("ProductID"),
+                                               ProductName = p.Field<string>("ProductName"),
+                                               Quantiy_sold = p.Field<int>("Quantiy_sold")
+                                           }));
+}
+
+
+
+@webGrid.GetHtml(
+    htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+    columns: webGrid.Columns(
+                webGrid.Column("ProductID", "ProductID"),
+                webGrid.Column("ProductName", "ProductName"),
+                webGrid.Column("Quantiy_sold", "Quantiy sold")))
